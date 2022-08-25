@@ -1,0 +1,45 @@
+#header {
+    font-size: 36px;
+    text-align: center;
+    margin: 2em;
+}
+
+#block {
+    padding: 20px;
+    font-size: 24px;
+    text-align: center;
+    border: 1px solid;
+    margin: 2em;
+}
+
+.firstnews {
+    margin: 1em;
+    width: 30%;
+}
+
+#container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#summary {
+    font-size: 0.75em;
+    width: 65%;
+    float: right;
+    padding: 1em;
+}
+
+#missing {
+    padding: 2em;
+    margin: 1.5em;
+    border: solid;
+    font-size: 1em;
+}
+
+.noimage {
+    font-size: 0.75em;
+    padding: 1em;
+    width: 25%;
+}
+
