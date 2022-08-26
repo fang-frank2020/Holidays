@@ -81,12 +81,11 @@ async function getData(country, api) {
             else {
                 var image = wikiImage["query"]["pages"][0]["thumbnail"]["source"];
             }
-            console.log(image);
-
             //sets date to image, summary, and name
-            imagedict[HolDate] = image;
-            wikidict[HolDate] = summary;
-            namedict[HolDate] = name;
+
+            repeatadd(HolDate, wikidict, summary);
+            repeatadd(HolDate, imagedict, image);
+            repeatadd(HolDate, namedict, name);
 
             // const newsresponse = await fetch("https://newsapi.org/v2/everything?q=" + name + "&sortBy=relevancy&apiKey=bc0d363d94ee40ebb740ab08b88dbedf");
             // const newsdata = await newsresponse.json();
@@ -99,47 +98,12 @@ async function getData(country, api) {
             //console.log(newslink);
         }
     }
-    //sorts holiday dates and finds repeated dates
-    var repeatdict = {};
-    var arraySorted = dateArray.sort(function(a,b){
-        if (new Date(a) - new Date(b) == 0) {
-            if (repeatdict[a]) {
-                repeatdict[a] = (repeatdict[a] || 0) + 1;;
-            }
-            else {
-                repeatdict[a] = 1;
-            }
-        }
-        // if (new Date(a) - new Date(b) == 0) {
-        //     console.log(a);
-        //     if (parseInt(a.slice(-1)) >= 9) {
-        //         var lastDigit = parseInt(a.slice(-1)) - 1;
-        //     }
-        //     else {
-        //         var lastDigit = parseInt(a.slice(-1)) + 1;
-        //     }
-        //     console.log(lastDigit);
-        //     var newA = a.slice(0, -1) + lastDigit.toString();
 
-        //     console.log(newA);
-        // }
+    //sorts date
+    console.log(wikidict);
+    var arraySorted = dateArray.sort(function(a,b){
         return new Date(a) - new Date(b);
     });
-    
-    var repeatKeys = Object.keys(repeatdict);
-
-    //finds how many repeated dates there are
-    for (let i = 0; i < repeatKeys.length; i++) {
-        if (repeatdict[repeatKeys[i]] != 1) {
-            var counter = 0;
-            var add = 0
-            while (counter < repeatdict[repeatKeys[i]]) {
-                add = add + 1;
-                counter = counter + add;
-            }
-            repeatdict[repeatKeys[i]] = add;
-        }
-    }
     
     //sets sorted dates to respective name, summary, and image
     var sortedWiki = {};
@@ -152,60 +116,40 @@ async function getData(country, api) {
     }
     console.log(sortedImage);
 
-    //sorts dates of repeated dates that are missing in the main set
-    var sortedMissing = {};
-    var sortedKeys = repeatKeys.sort(function(a,b){
-        return new Date(a) - new Date(b);
-    });
-    for (let i = 0; i < repeatKeys.length; i++) {
-        sortedMissing[sortedKeys[i]] = repeatdict[sortedKeys[i]];
-    }
 
     //displays the holidays with their respective information(name, date, summary, image)
     for (let i = 0; i < Object.keys(sortedWiki).length; i++) {
         
         //displays name
-        var blockdiv = document.createElement("div");
-        blockdiv.id = "block";
-        document.getElementsByTagName('body')[0].appendChild(blockdiv);
-        blockdiv.innerHTML = Object.keys(sortedWiki)[i] + " " + Object.values(sortedName)[i]+ " (" + country + ")";
+        for (let j = 0; j < sortedWiki[Object.keys(sortedWiki)[i]].length; j++) {
+            var blockdiv = document.createElement("div");
+            blockdiv.id = "block";
+            document.getElementsByTagName('body')[0].appendChild(blockdiv);
+            blockdiv.innerHTML = Object.keys(sortedWiki)[i] + " " + Object.values(sortedName)[i][j]+ " (" + country + ")";
 
-        var container = document.createElement("div");
-        container.id = "container";
-        blockdiv.appendChild(container);
+            var container = document.createElement("div");
+            container.id = "container";
+            blockdiv.appendChild(container);
 
-        //displays image
-        if (Object.values(sortedImage)[i].includes("https") == true) {
-            var firstinner = document.createElement("img");
-            container.appendChild(firstinner);
-            firstinner.classList.add("firstnews");
-            firstinner.src = Object.values(sortedImage)[i];
+            //displays image
+            if (Object.values(sortedImage)[i][j].includes("https") == true) {
+                var firstinner = document.createElement("img");
+                container.appendChild(firstinner);
+                firstinner.classList.add("firstnews");
+                firstinner.src = Object.values(sortedImage)[i][j];
+            }
+            else {
+                var noimg = document.createElement("div");
+                noimg.classList.add("noimage");
+                container.appendChild(noimg);
+                noimg.innerHTML = Object.values(sortedImage)[i][j];
+            }
+            //displays summary
+            var secondinner = document.createElement("div");
+            secondinner.id = "summary";
+            container.appendChild(secondinner);
+            secondinner.innerHTML = Object.values(sortedWiki)[i][j];
         }
-        else {
-            var noimg = document.createElement("div");
-            noimg.classList.add("noimage");
-            container.appendChild(noimg);
-            noimg.innerHTML = Object.values(sortedImage)[i];
-        }
-
-        //displays summary
-        var secondinner = document.createElement("div");
-        secondinner.id = "summary";
-        container.appendChild(secondinner);
-        secondinner.innerHTML = Object.values(sortedWiki)[i];
-    }
-
-    //displays the repeated holidays that are missing in the main set
-    for (let i = 0; i < repeatKeys.length; i++) {
-        var missingdiv = document.createElement("div");
-        missingdiv.id = "missing";
-        document.getElementsByTagName('body')[0].appendChild(missingdiv);
-        if (sortedMissing[sortedKeys[i]] == 1) {
-            missingdiv.innerHTML = "There is one other holiday on " + sortedKeys[i] + " that we couldn't display."
-        }
-        else {
-            missingdiv.innerHTML = "There are " + sortedMissing[sortedKeys[i]] + " other holidays on " + sortedKeys[i] + " that we couldn't display." 
-        } 
     }
 }
 
@@ -214,7 +158,18 @@ function getAPI(countryname) {
     return "https://www.googleapis.com/calendar/v3/calendars/en."+ countryname +"%23holiday%40group.v.calendar.google.com/events?key=AIzaSyBOS4bvkIVhWtcCb6L2dz0Q1CeJsl8ZwU4";
 }
 
-getData("usa", getAPI("usa"));
+//adds holiday information to specific dictionary and accounts for the information in repeats
+function repeatadd(date, dictname, output) {
+    if (date in dictname) {
+        dictname[date].push(output);
+    }
+    else {
+        dictname[date] = [output];
+    }
+}
+
+
+getData("china", getAPI("china"));
 //getData("uk", getAPI("uk"));
 
 
