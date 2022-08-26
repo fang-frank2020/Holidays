@@ -1,8 +1,5 @@
-//current problems: 
-//can't sort duplicate dates
-
 //to-do list:
-//make images for the left side
+//make images higher quality
 //implement a checkbox/dropdown feature with all the different countries
 //find a way to merge the lists of different coutnries together
 //add the links of images and article links into each box
