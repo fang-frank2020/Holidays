@@ -4,7 +4,7 @@
 //find a way to merge the lists of different coutnries together
 //add the links of images and article links into each box
 //add a reverse chronological checkbox that puts events in reverse chronological order
-//make the site prettier / more user friendly
+//make the site prettier / more user friendly --> maybe set background images/color based on the season that the holidays is in
 
 
 
@@ -56,6 +56,9 @@ async function getData(country, api) {
             }
             if (name.includes("Day") == true && (name.includes("Christmas") == true || name.includes("Thanksgiving") == true)) {
                 name = name.replace("Day", "");
+            }
+            if (name.includes(")") == true) {
+                name = name.replace(/\s*\(.*?\)\s*/g, "")
             }
             //const wikilink = await fetch ("https://en.wikipedia.org/w/api.php?origin=*&action=opensearch&search=" + name.replaceAll(' ', "_") + "&limit=1&namespace=0&format=json");
             //const wikidata = await wikilink.json();
@@ -113,16 +116,78 @@ async function getData(country, api) {
     }
     console.log(sortedImage);
 
-
+    var winter = new Date("2000-11-01 00:00");
+    var spring = new Date("2000-03-01 00:00");
+    var summer = new Date("2000-06-01 00:00");
+    var fall = new Date("2000-09-01 00:00");
     //displays the holidays with their respective information(name, date, summary, image)
     for (let i = 0; i < Object.keys(sortedWiki).length; i++) {
         
         //displays name
         for (let j = 0; j < sortedWiki[Object.keys(sortedWiki)[i]].length; j++) {
+            var backgrounddiv = document.createElement("div");
+            backgrounddiv.id = "news" + i;
+            backgrounddiv.classList.add("backgroundcolor");
+            document.getElementsByTagName('body')[0].appendChild(backgrounddiv);
             var blockdiv = document.createElement("div");
-            blockdiv.id = "block";
-            document.getElementsByTagName('body')[0].appendChild(blockdiv);
+            blockdiv.classList.add("newsblock");
+            backgrounddiv.appendChild(blockdiv);
             blockdiv.innerHTML = Object.keys(sortedWiki)[i] + " " + Object.values(sortedName)[i][j]+ " (" + country + ")";
+
+            //finds the holiday season for background purposes
+            var holidayCompare = Object.keys(sortedWiki)[i];
+            holidayCompare = "2000-" + holidayCompare.slice(5,10) + " 00:00";
+            holidayCompare = new Date(holidayCompare);
+
+
+            if (holidayCompare.getTime() < spring.getTime()) {
+                var holidayseason = "winter";
+            }
+            else if (holidayCompare.getTime() >= spring.getTime() && holidayCompare.getTime() < summer.getTime()) {
+                var holidayseason = "spring";
+            }
+            else if (holidayCompare.getTime() >= summer.getTime() && holidayCompare.getTime() < fall.getTime()) {
+                var holidayseason = "summer";
+            }
+            else if (holidayCompare.getTime() >= fall.getTime()) {
+                var holidayseason = "fall";
+            }
+            
+
+            //sets background color according to season
+            if (holidayseason == "winter") {
+                if ((i != 0) && (j == 0) && (new Date("2000-" + Object.keys(sortedWiki)[(i - 1)].slice(5,10) + " 00:00") > spring)) {
+                    backgrounddiv.style.backgroundImage = "linear-gradient(to bottom, #CE8545, lightblue)";
+                }
+                else {
+                    backgrounddiv.style.backgroundColor = "lightblue";
+                }
+            }
+            else if (holidayseason == "spring") {
+                if ((i != 0) && (j == 0) && (new Date("2000-" + Object.keys(sortedWiki)[i - 1].slice(5,10) + " 00:00") < spring)) {
+                    backgrounddiv.style.backgroundImage = "linear-gradient(to bottom, lightblue, lightgreen)";
+                }
+                else {
+                    backgrounddiv.style.backgroundColor = "lightgreen";
+                }
+            }
+            else if (holidayseason == "summer") {
+                if ((i != 0) && (j == 0) && (new Date("2000-" + Object.keys(sortedWiki)[i - 1].slice(5,10) + " 00:00") < summer)) {
+                    backgrounddiv.style.backgroundImage = "linear-gradient(to bottom, lightgreen, #F85D39)";
+                }
+                else {
+                    backgrounddiv.style.backgroundColor = "#F85D39";
+                }
+            }
+            else if (holidayseason == "fall") {
+                if ((i != 0) && (j == 0) && (new Date("2000-" + Object.keys(sortedWiki)[i - 1].slice(5,10) + "  00:00") < fall)) {
+                    backgrounddiv.style.backgroundImage = "linear-gradient(to bottom, #F85D39, #CE8545)";
+                }
+                else {
+                    backgrounddiv.style.backgroundColor = "#CE8545";
+                }
+
+            }
 
             var container = document.createElement("div");
             container.id = "container";
@@ -141,6 +206,7 @@ async function getData(country, api) {
                 container.appendChild(noimg);
                 noimg.innerHTML = Object.values(sortedImage)[i][j];
             }
+
             //displays summary
             var secondinner = document.createElement("div");
             secondinner.id = "summary";
@@ -166,7 +232,7 @@ function repeatadd(date, dictname, output) {
 }
 
 
-getData("china", getAPI("china"));
+getData("german", getAPI("german"));
 //getData("uk", getAPI("uk"));
 
 
