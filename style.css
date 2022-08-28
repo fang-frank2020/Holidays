@@ -5,12 +5,12 @@ body {
 #header {
     font-size: 36px;
     text-align: center;
-    margin: 2em;
+    padding: 2em;
 }
 
 .newsblock {
     padding: 20px;
-    font-size: 24px;
+    font-size: 30px;
     text-align: center;
     border: 1px solid;
     background-color: white;
@@ -22,7 +22,9 @@ body {
 
 .firstnews {
     margin: 1em;
-    width: 30%;
+    width: 20%;
+    height: 30%;
+    max-height: 500px;
 }
 
 #container {
@@ -32,8 +34,8 @@ body {
 }
 
 #summary {
-    font-size: 0.75em;
-    width: 65%;
+    font-size: 18px;
+    width: 70%;
     float: right;
     padding: 1em;
 }
@@ -51,3 +53,56 @@ body {
     width: 25%;
 }
 
+#dropdown {
+    font-size: 24px;
+}
+
+#selectedCountry {
+    font-size: 20px;
+}
+
+#bigContainer {
+    background: url("https://thumbs.dreamstime.com/z/seamless-children-s-pattern-snowflakes-stars-cute-holiday-background-vector-white-background-christmas-backgroun-163723966.jpg");
+}
+
+#label {
+    font-size: 34px;
+    display: flex;
+    justify-content: center;
+}
+
+#selectedCountry {
+    cursor: pointer;
+    padding: 0.5em;
+    margin: 1.5em 0.5em;
+    border-radius: 12px;
+}
+
+#submit {
+    background-color: #45C65C;
+    border: none;
+    color: white;
+    border-radius: 12px;
+    text-align: center;
+    padding: 1em 1.5em;
+    margin:2em 1em;
+    font-size: 16px;
+}
+
+#submit:hover {
+    cursor: pointer;
+    background-color: #359747;
+}
+
+#selecttext {
+    display: flex;
+}
+
+#waittime {
+    display: flex;
+    justify-content: center;
+}
+
+#waittext {
+    font-size: 20px;
+}

@@ -1,14 +1,18 @@
 //to-do list:
+//add all of the countries into the dropdown list
 //make images higher quality
-//implement a checkbox/dropdown feature with all the different countries
-//find a way to merge the lists of different coutnries together
+//find a way to merge the lists of different countries together
 //add the links of images and article links into each box
 //add a reverse chronological checkbox that puts events in reverse chronological order
-//make the site prettier / more user friendly --> maybe set background images/color based on the season that the holidays is in
 
 
 
 async function getData(country, api) {
+    //creates a container for holidays
+    var holidayContainer = document.createElement("div");
+    document.getElementsByTagName('body')[0].appendChild(holidayContainer);
+    holidayContainer.id = "holidayContainer";
+
     //fetches calendar names of given country
     const response = await fetch(api);
     const data = await response.json();
@@ -128,10 +132,10 @@ async function getData(country, api) {
             var backgrounddiv = document.createElement("div");
             backgrounddiv.id = "news" + i;
             backgrounddiv.classList.add("backgroundcolor");
-            document.getElementsByTagName('body')[0].appendChild(backgrounddiv);
             var blockdiv = document.createElement("div");
             blockdiv.classList.add("newsblock");
             backgrounddiv.appendChild(blockdiv);
+            holidayContainer.appendChild(backgrounddiv);
             blockdiv.innerHTML = Object.keys(sortedWiki)[i] + " " + Object.values(sortedName)[i][j]+ " (" + country + ")";
 
             //finds the holiday season for background purposes
@@ -214,6 +218,7 @@ async function getData(country, api) {
             secondinner.innerHTML = Object.values(sortedWiki)[i][j];
         }
     }
+    waittime.remove();
 }
 
 //gets the holidays with their name and dates for a given country
@@ -231,9 +236,24 @@ function repeatadd(date, dictname, output) {
     }
 }
 
+function displaydata() {
+    if (document.getElementById("holidayContainer") != null) {
+        holidayContainer.remove();
+    }
+    if (document.getElementById("waittime") == null) {
+        var wait = document.createElement("div");
+        wait.id = "waittime";
+        bigContainer.appendChild(wait);
 
-getData("german", getAPI("german"));
-//getData("uk", getAPI("uk"));
+        var waittext = document.createElement("p");
+        waittext.id = "waittext";
+        waittext.innerHTML = "Please wait up to 10 seconds for the holidays to display."
+        wait.appendChild(waittext);
+    }
+
+    getData(document.getElementById("selectedCountry").value, getAPI(document.getElementById("selectedCountry").value));
+}
+
 
 
         

@@ -5,8 +5,22 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <div id="header">
-            Upcoming Holidays
+        <div id="bigContainer">
+            <div id="header">
+                Upcoming Holidays
+            </div>
+            <div id="dropdown">
+                <label id="label"><p id="selecttext">Select a country: </p>
+                    <select id="selectedCountry">
+                        <option value = "" disabled selected>country</option>
+                        <option value = "usa">USA</option>
+                        <option value = "uk">UK</option>
+                        <option value = "indian">India</option>
+                        <option value = "china">China</option>
+                    </select>
+                    <button id="submit" onclick="displaydata()">Submit</button>
+                </label>
+            </div>
         </div>
         <script src="script.js"></script>
     </body>
