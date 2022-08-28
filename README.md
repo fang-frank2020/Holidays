@@ -1,3 +1,2 @@
 # Holidays
-gives a quick description and related image of holidays in a specific country
-### subtitle here
+This webpage lists all the holidays in a chosen country with accompanying descriptions and images.
