@@ -1,9 +1,9 @@
-//to-do list:
-//add all of the countries into the dropdown list
-//make images higher quality
+/*
+to-do list:
 //find a way to merge the lists of different countries together
 //add the links of images and article links into each box
-//add a reverse chronological checkbox that puts events in reverse chronological order
+add a reverse chronological checkbox that puts events in reverse chronological order
+*/
 
 
 
@@ -76,14 +76,14 @@ async function getData(country, api) {
             }
 
             //gets image of holiday
-            const wikiImageData = await fetch ("https://en.wikipedia.org/w/api.php?origin=*&action=query&formatversion=2&prop=pageimages%7Cpageterms&format=json&titles=" + name.replaceAll(' ', "_"));
+            const wikiImageData = await fetch ("https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&formatversion=2&prop=pageimages|pageterms&piprop=original&titles=" + name.replaceAll(' ', "_"));
             const wikiImage = await wikiImageData.json();
             var imagesource = wikiImage["query"]["pages"][0];
-            if (imagesource["thumbnail"] == undefined || wikiImage["query"]["pages"][0]["thumbnail"]["source"] == undefined) {
+            if (imagesource["original"] == undefined || wikiImage["query"]["pages"][0]["original"]["source"] == undefined) {
                 var image = "Sorry, I couldn't find the image for this holiday on Wikipedia.";
             }
             else {
-                var image = wikiImage["query"]["pages"][0]["thumbnail"]["source"];
+                var image = wikiImage["query"]["pages"][0]["original"]["source"];
             }
             //sets date to image, summary, and name
 
