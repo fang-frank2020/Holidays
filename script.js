@@ -5,8 +5,6 @@ to-do list:
 add a reverse chronological checkbox that puts events in reverse chronological order
 */
 
-
-
 async function getData(country, api) {
     //creates a container for holidays
     var holidayContainer = document.createElement("div");
@@ -64,8 +62,6 @@ async function getData(country, api) {
             if (name.includes(")") == true) {
                 name = name.replace(/\s*\(.*?\)\s*/g, "")
             }
-            //const wikilink = await fetch ("https://en.wikipedia.org/w/api.php?origin=*&action=opensearch&search=" + name.replaceAll(' ', "_") + "&limit=1&namespace=0&format=json");
-            //const wikidata = await wikilink.json();
             
             //gets summary of holiday
             const wikisumdata = await fetch ("https://en.wikipedia.org/api/rest_v1/page/summary/" + name.replaceAll(' ', "_"));
@@ -90,16 +86,6 @@ async function getData(country, api) {
             repeatadd(HolDate, wikidict, summary);
             repeatadd(HolDate, imagedict, image);
             repeatadd(HolDate, namedict, name);
-
-            // const newsresponse = await fetch("https://newsapi.org/v2/everything?q=" + name + "&sortBy=relevancy&apiKey=bc0d363d94ee40ebb740ab08b88dbedf");
-            // const newsdata = await newsresponse.json();
-            // var newslink  = newsdata["articles"][0]["urlToImage"];
-
-            // document.getElementById(unqid).src = String(newslink);
-            //document.getElementById(unqid).classList.add("newspic");
-            
-            //console.log(newsdata);
-            //console.log(newslink);
         }
     }
 
