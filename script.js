@@ -1,10 +1,3 @@
-/*
-to-do list:
-//find a way to merge the lists of different countries together
-//add the links of images and article links into each box
-add a reverse chronological checkbox that puts events in reverse chronological order
-*/
-
 async function getData(country, api) {
     //creates a container for holidays
     var holidayContainer = document.createElement("div");
