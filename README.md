@@ -1,6 +1,6 @@
 # Holidays Across the World
 
-Demo on https://fang-frank2020.github.io/Holidays/
+Demo on https://fang-frank2020.github.io/Holidays/, also hosted on Microsoft Azure: https://witty-plant-0c471f40f.3.azurestaticapps.net/
 
 ## Brief Description: This webpage lists a chronological timeline of the holidays in a chosen country. The timeline starts on the current date and lists holidays until the end of the next year. Additionally, each holiday has a accompanying description and image, and the background color of the timeline is a gradient that matches the season of the holidays.
 
